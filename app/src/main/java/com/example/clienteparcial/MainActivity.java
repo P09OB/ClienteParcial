@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.clienteparcial.model.Usuario;
+import com.google.gson.Gson;
+
+import java.util.UUID;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnMessageListener{
 
     private EditText nameText;
@@ -34,12 +39,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         String name = nameText.getText().toString();
+        int cambio =1;
+
+        String id = UUID.randomUUID().toString();
+        Usuario user = new Usuario(name,1, id);
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        tcp.enviar(json);
 
 
         Intent i = new Intent(this,Control.class);
         startActivity(i);
-
-
 
     }
 

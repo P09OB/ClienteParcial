@@ -4,11 +4,17 @@ public class Coordenadas {
 
     int x;
     int y;
+    int r;
+    int g;
+    int b;
     String id;
 
-    public Coordenadas(int x, int y, String id) {
+    public Coordenadas(int x, int y, int r,int g, int b,String id) {
         this.x = x;
         this.y = y;
+        this.r = r;
+        this.g=g;
+        this.b =b;
         this.id = id;
     }
 
@@ -38,5 +44,29 @@ public class Coordenadas {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public void setR(int r) {
+        this.r = r;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public void setG(int g) {
+        this.g = g;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setB(int b) {
+        this.b = b;
     }
 }

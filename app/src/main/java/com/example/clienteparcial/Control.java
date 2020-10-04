@@ -4,18 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 
 import com.example.clienteparcial.model.Coordenadas;
 import com.google.gson.Gson;
 
 import java.util.UUID;
 
-public class Control extends AppCompatActivity implements View.OnClickListener, OnMessageListener{
+public class Control extends AppCompatActivity implements View.OnTouchListener, OnMessageListener{
 
     private Button right,left,down, up, color;
-    int x,y;
+    boolean buttonPressed;
+    int x =0;
+    int y = 0;
+    int r,g,b;
     private TCPsingleton tcp;
 
     @Override
@@ -29,11 +34,11 @@ public class Control extends AppCompatActivity implements View.OnClickListener, 
         up = findViewById(R.id.arriba);
         color = findViewById(R.id.color);
 
-        right.setOnClickListener(this);
-        left.setOnClickListener(this);
-        down.setOnClickListener(this);
-        up.setOnClickListener(this);
-        color.setOnClickListener(this);
+        right.setOnTouchListener(this);
+        left.setOnTouchListener(this);
+        down.setOnTouchListener(this);
+        up.setOnTouchListener(this);
+        color.setOnTouchListener(this);
 
         tcp = TCPsingleton.getInstance();
         tcp.setObserver(this);
@@ -42,51 +47,94 @@ public class Control extends AppCompatActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onClick(View view) {
+    public boolean onTouch(View view, MotionEvent motionEvent) {
 
-        switch (view.getId()){
+        switch(motionEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                buttonPressed = true;
 
-            case R.id.derecha:
+                new Thread(
 
-                x +=10;
+                        ()->{
+
+                            while (buttonPressed){
+
+                                switch (view.getId()){
+
+                                    case R.id.derecha:
+
+                                        if(x <=469){
+                                            x +=10;
+                                        }
+
+                                        break;
+
+                                    case R.id.izquierda:
+
+                                        if(x >= 32){
+                                            x-=10;
+                                        }
+
+                                        break;
+
+                                    case R.id.abajo:
+                                        if(y <=469) {
+                                            y += 10;
+                                        }
+                                        break;
+
+                                    case R.id.arriba:
+
+                                        if(y >= 32){
+                                            y-=10;
+                                        }
+                                        break;
+
+                                    case R.id.color:
+
+                                        r = (int) (Math.random()*255+1);
+                                        g = (int) (Math.random()*255+1);
+                                        b = (int) (Math.random()*255+1);
+
+                                        break;
+
+                                }
+
+                                String id = UUID.randomUUID().toString();
+                                Coordenadas coordenadas = new Coordenadas(x,y,r,g,b,id);
+                                Gson gson = new Gson();
+                                String json = gson.toJson(coordenadas);
+                                tcp.enviar(json);
+
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+
+                        }
+
+                ).start();
 
                 break;
 
-            case R.id.izquierda:
+            case MotionEvent.ACTION_UP:
 
-                x-=10;
-
-                break;
-
-            case R.id.abajo:
-
-                y+=10;
+                buttonPressed = false;
 
                 break;
-
-            case R.id.arriba:
-
-                y-=10;
-
-                break;
-
         }
-
-        String id = UUID.randomUUID().toString();
-        Coordenadas coordenadas = new Coordenadas(x,y,id);
-        Gson gson = new Gson();
-        String json = gson.toJson(coordenadas);
-
-        Log.e("TCP",""+json);
-
-        tcp.enviar(json);
-
+        return false;
     }
 
     @Override
     public void messageReceived(String msg) {
 
-        Log.e("Servidor",""+msg);
 
     }
+
+
 }
