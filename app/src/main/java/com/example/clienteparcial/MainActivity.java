@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String name = nameText.getText().toString();
 
+
         Intent i = new Intent(this,Control.class);
         startActivity(i);
 

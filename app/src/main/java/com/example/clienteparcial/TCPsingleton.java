@@ -23,6 +23,7 @@ public class TCPsingleton extends Thread{
         if(instance == null) {
             instance = new TCPsingleton();
             instance.start();
+
         }
         return instance;
 
@@ -42,7 +43,7 @@ public class TCPsingleton extends Thread{
         try {
 
             Log.e("TCP","conectando..");
-            socket = new Socket("192.168.0.42",6000);
+            socket = new Socket("192.168.0.42",4000);
             Log.e("TCP","conectado");
 
             InputStream is = socket.getInputStream();
@@ -74,7 +75,7 @@ public class TCPsingleton extends Thread{
                 ()->{
 
                     try {
-                        writer.write(mgs);
+                        writer.write(mgs + "\n");
                         writer.flush();
 
                     } catch (IOException e) {
