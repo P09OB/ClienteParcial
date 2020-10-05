@@ -3,10 +3,13 @@ package com.example.clienteparcial;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.clienteparcial.model.Usuario;
 import com.google.gson.Gson;
@@ -41,15 +44,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String name = nameText.getText().toString();
         int cambio =1;
 
-        String id = UUID.randomUUID().toString();
-        Usuario user = new Usuario(name,1, id);
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        tcp.enviar(json);
+        Log.e("name",name+"");
+
+        if(name.isEmpty()){
+
+            Toast.makeText(this,"Ingrese un nombre",Toast.LENGTH_LONG).show();
+         return;
+        } else {
+
+            String id = UUID.randomUUID().toString();
+            Usuario user = new Usuario(name,1, id);
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+            tcp.enviar(json);
 
 
-        Intent i = new Intent(this,Control.class);
-        startActivity(i);
+            Intent i = new Intent(this,Control.class);
+            startActivity(i);
+
+        }
+
+
 
     }
 

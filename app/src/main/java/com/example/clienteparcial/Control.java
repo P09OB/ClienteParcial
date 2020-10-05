@@ -2,6 +2,7 @@ package com.example.clienteparcial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -63,6 +64,8 @@ public class Control extends AppCompatActivity implements View.OnTouchListener, 
 
                                     case R.id.derecha:
 
+                                        right.setBackgroundColor(Color.parseColor("#fe5f55"));
+
                                         if(x <=469){
                                             x +=10;
                                         }
@@ -71,6 +74,8 @@ public class Control extends AppCompatActivity implements View.OnTouchListener, 
 
                                     case R.id.izquierda:
 
+                                        left.setBackgroundColor(Color.parseColor("#fe5f55"));
+
                                         if(x >= 32){
                                             x-=10;
                                         }
@@ -78,6 +83,10 @@ public class Control extends AppCompatActivity implements View.OnTouchListener, 
                                         break;
 
                                     case R.id.abajo:
+
+                                        down.setBackgroundColor(Color.parseColor("#fe5f55"));
+
+
                                         if(y <=469) {
                                             y += 10;
                                         }
@@ -85,12 +94,16 @@ public class Control extends AppCompatActivity implements View.OnTouchListener, 
 
                                     case R.id.arriba:
 
+                                        up.setBackgroundColor(Color.parseColor("#fe5f55"));
+
                                         if(y >= 32){
                                             y-=10;
                                         }
                                         break;
 
                                     case R.id.color:
+
+                                        color.setBackgroundColor(Color.parseColor("#fe5f55"));
 
                                         r = (int) (Math.random()*255+1);
                                         g = (int) (Math.random()*255+1);
@@ -124,6 +137,15 @@ public class Control extends AppCompatActivity implements View.OnTouchListener, 
             case MotionEvent.ACTION_UP:
 
                 buttonPressed = false;
+
+                right.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                left.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                down.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                up.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                color.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+
+
 
                 break;
         }
